@@ -1,87 +1,87 @@
-# EcoHome Store - Frontend Chat Interno
+# EcoHome Store - Frontend React
 
-Frontend React para el modulo de chat interno corporativo de EcoHome Store.
+Aplicación web para EcoHome Store. Catálogo de productos + Chat en tiempo real.
 
-Se conecta al backend API (puerto 3000) para autenticacion y al servidor de chat (puerto 3001) para mensajeria en tiempo real via Socket.IO.
+## Stack
 
-## Requisitos previos
+- **Framework:** React 19
+- **Build:** Vite 5
+- **Tiempo real:** socket.io-client
+- **Estilos:** CSS plano
 
-- Node.js v18 o superior
-- Backend API corriendo en http://localhost:3000 (project-eco-home)
-- Servidor de chat corriendo en http://localhost:3001 (project-eco-home)
+## Funcionalidades
 
-## Instalacion
+- Login con JWT (almacenamiento en localStorage)
+- Catálogo de productos con información del creador (trazabilidad)
+- Creación de productos (solo admin) con actualización dinámica del contador
+- Chat en tiempo real con Socket.IO
+- Contador dinámico "Nombre (N)" que refleja productos creados por el usuario
+- Navegación entre Catálogo y Chat
+
+## Instalación
 
 ```bash
+# Clonar
 git clone https://github.com/Sefhv/project-eco-home-frontend.git
 cd project-eco-home-frontend
+
+# Instalar dependencias
 npm install
+
+# Configurar variables de entorno (.env ya incluido)
+# VITE_API_URL=http://localhost:3000
+# VITE_CHAT_URL=http://localhost:3001
 ```
 
-## Ejecutar en desarrollo
+## Ejecución
 
 ```bash
+# Desarrollo
 npm run dev
+
+# Abrir en navegador
+http://localhost:5173
 ```
 
-Abre http://localhost:5173 en el navegador.
-
-## Build para produccion
+## Build para producción
 
 ```bash
 npm run build
+# Los archivos estáticos quedan en ./dist
 ```
 
-Los archivos se generan en la carpeta `dist/`.
+## Docker (producción)
+
+```bash
+docker build \
+  --build-arg VITE_API_URL=https://tu-backend.onrender.com \
+  --build-arg VITE_CHAT_URL=https://tu-backend.onrender.com \
+  -t ecohome-frontend .
+
+docker run -p 3000:3000 ecohome-frontend
+```
 
 ## Estructura
 
 ```
 project-eco-home-frontend/
-├── index.html
-├── package.json
+├── src/
+│   ├── App.jsx               # Raíz: navegación + contador dinámico
+│   ├── main.jsx
+│   ├── index.css             # Estilos navegación
+│   └── components/
+│       ├── Login.jsx         # Login con JWT
+│       ├── Login.css
+│       ├── Products.jsx      # Catálogo + crear + creador
+│       ├── Products.css
+│       ├── ChatRoom.jsx      # Chat Socket.IO
+│       └── ChatRoom.css
+├── Dockerfile
 ├── vite.config.js
-└── src/
-    ├── main.jsx              # Punto de entrada
-    ├── App.jsx               # Componente raiz (maneja estado de autenticacion)
-    ├── index.css             # Estilos globales
-    └── components/
-        ├── Login.jsx         # Formulario de login con JWT
-        ├── Login.css         # Estilos del login
-        ├── ChatRoom.jsx      # Sala de chat (Socket.IO client)
-        └── ChatRoom.css      # Estilos del chat
+└── package.json
 ```
 
-## Flujo de uso
+## Requisitos
 
-1. El usuario ingresa email y contrasena en el formulario de Login.
-2. Se autentica contra `POST http://localhost:3000/api/v1/auth/login`.
-3. Al obtener el JWT, se almacena en localStorage.
-4. Se conecta al servidor de chat (puerto 3001) via Socket.IO enviando el token.
-5. Recibe los ultimos 10 mensajes del historial.
-6. Puede enviar y recibir mensajes en tiempo real.
-7. Al cerrar sesion, se limpia localStorage y se desconecta el socket.
-
-## Credenciales de prueba
-
-| Rol | Email | Password |
-|-----|-------|----------|
-| Admin | admin@ecohome.com | admin123 |
-| Cliente | juan@test.com | password123 |
-
-Para probar en tiempo real, abrir dos ventanas (una normal y una incognito) con usuarios diferentes.
-
-## Arquitectura de puertos
-
-| Servicio | Puerto | Repositorio |
-|----------|--------|-------------|
-| API REST (auth + productos) | 3000 | project-eco-home |
-| Chat (Socket.IO) | 3001 | project-eco-home |
-| Frontend React (Vite) | 5173 | project-eco-home-frontend |
-
-## Tecnologias
-
-- React 19
-- Vite 8
-- socket.io-client 4.7
-- ESLint
+- Backend corriendo en puerto 3000 (API) y 3001 (Chat)
+- Credenciales: `admin@ecohome.com` / `admin123`
