@@ -1,15 +1,14 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; }
 
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #f0f2f5;
-  height: 100vh;
-}
+.app-container { height: 100vh; display: flex; flex-direction: column; }
+.app-nav { display: flex; justify-content: space-between; align-items: center; background: #2e7d32; color: white; padding: 10px 20px; }
+.nav-left { display: flex; align-items: center; gap: 12px; }
+.nav-brand { font-weight: bold; font-size: 16px; margin-right: 8px; }
+.nav-left button { background: rgba(255,255,255,0.15); color: white; border: none; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+.nav-left button.active { background: rgba(255,255,255,0.35); font-weight: bold; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.user-display { font-size: 13px; background: rgba(255,255,255,0.2); padding: 4px 10px; border-radius: 12px; }
+.logout-btn { background: rgba(255,255,255,0.15); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
 
-#root {
-  height: 100vh;
-}
+.app-content { flex: 1; overflow: auto; }
